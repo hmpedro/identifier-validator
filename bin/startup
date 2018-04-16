@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+const startApp = async () => {
+  await require('../backend/bin/www');
+  // await require('../frontend/bin/www');
+};
+
+startApp()
+  .then(() => console.log('Ready!'))
+  .catch(console.error);
