@@ -1,0 +1,39 @@
+<template>
+    <v-navigation-drawer fixed v-model="showMenu" app>
+        <v-list dense>
+            <v-list-tile :to="{name:'identifierList'}" exact >
+                <v-list-tile-action>
+                    <v-icon>view_list</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>List</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{name:'identifierCrud'}" exact >
+                <v-list-tile-action>
+                    <v-icon>add</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>Add Identifier</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list>
+    </v-navigation-drawer>
+</template>
+
+<script>
+	export default {
+		name: 'Navigation',
+		props: {
+			showMenu: Boolean
+		},
+    methods: {
+			goTo(state) {
+				this.$router.go(state);
+      }
+    }
+	}
+</script>
+
+<style>
+</style>
