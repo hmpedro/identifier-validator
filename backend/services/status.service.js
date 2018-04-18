@@ -1,8 +1,7 @@
 const StatusService = {
   startupTime: new Date().getTime(),
   queries: {
-    cpf: 0,
-    cnpj: 0,
+    createIdentifier: 0,
     list: 0,
   },
 

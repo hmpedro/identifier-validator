@@ -16,42 +16,34 @@ const identifierService = {
     }
   },
 
-  createCpf: async ({ cpf }) => {
-    StatusService.incrementQuery('cpf');
+  createIdentifier: async (identifier) => {
+    StatusService.incrementQuery('createIdentifier');
 
-    if (!cpf || !cpfValidator.isValid(cpf)) {
+    if (!identifier) {
+      throw new Error('Empty Object');
+    }
+
+    if (!identifier) {
+      throw new Error('Empty Object');
+    }
+
+    if (identifier.type === 'CPF' && !cpfValidator.isValid(identifier.value)) {
       throw new Error('Invalid CPF');
     }
 
-    const identifier = new Identifier({
-      value: cpfValidator.clear(cpf),
-      type: 'CPF',
-    });
-
-    try {
-      return await identifier.save();
-    } catch (error) {
-      console.log(error);
-      if (error.message.includes('duplicate key error')) throw new Error('Duplicated CPF');
-
-      throw error;
-    }
-  },
-
-  createCnpj: async ({ cnpj }) => {
-    StatusService.incrementQuery('cnpj');
-
-    if (!cnpj || !cnpjValidator.validate(cnpj)) {
+    if (identifier.type === 'CNPJ' && !cnpjValidator.validate(identifier.value)) {
       throw new Error('Invalid CNPJ');
     }
 
-    const identifier = new Identifier({
-      value: cpfValidator.unMask(cnpj),
-      type: 'CNPJ',
+    const identifierToSave = new Identifier({
+      value: identifier.value,
+      type: identifier.type,
+      blacklist: identifier.blacklist,
     });
 
     try {
-      return await identifier.save();
+      const savedObj = await identifierToSave.save();
+      return savedObj;
     } catch (error) {
       console.log(error);
       if (error.message.includes('duplicate key error')) throw new Error('Duplicated CPF');
@@ -59,6 +51,7 @@ const identifierService = {
       throw error;
     }
   },
+
 };
 
 module.exports = identifierService;

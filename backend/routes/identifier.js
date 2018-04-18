@@ -5,8 +5,7 @@ const router = express.Router();
 
 router.get('/', identifierController.list);
 
-router.post('/cpf', identifierController.createCpf);
+router.post('/', identifierController.createIdentifier);
 
-router.post('/cnpj', identifierController.createCnpj);
 
 module.exports = router;

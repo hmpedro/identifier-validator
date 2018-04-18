@@ -8,17 +8,10 @@ const identifierController = {
       })
       .catch(next);
   },
-  createCpf: (req, res, next) => {
-    identifierService.createCpf(req.body)
+  createIdentifier: (req, res, next) => {
+    identifierService.createIdentifier(req.body)
       .then((cpf) => {
         res.status(200).send(cpf);
-      })
-      .catch(next);
-  },
-  createCnpj: (req, res, next) => {
-    identifierService.createCnpj(req.body)
-      .then((cnpj) => {
-        res.status(200).send(cnpj);
       })
       .catch(next);
   },

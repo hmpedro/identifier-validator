@@ -9,8 +9,6 @@ const routes = require('./routes');
 const bootstrap = async () => {
   const app = express();
 
-
-
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'jade');
