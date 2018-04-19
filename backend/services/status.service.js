@@ -2,6 +2,7 @@ const StatusService = {
   startupTime: new Date().getTime(),
   queries: {
     createIdentifier: 0,
+    updateIdentifier: 0,
     list: 0,
   },
 

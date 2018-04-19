@@ -9,5 +9,7 @@ router.post('/', identifierController.createIdentifier);
 
 router.put('/:identififerValue', identifierController.updateIdentifier);
 
+router.delete('/:identififerValue', identifierController.deleteIdentifier);
+
 
 module.exports = router;

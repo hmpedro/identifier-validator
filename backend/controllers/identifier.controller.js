@@ -22,7 +22,15 @@ const identifierController = {
         res.status(200).send(identifier);
       })
       .catch(next);
-  }
+  },
+  deleteIdentifier: (req, res, next) => {
+    const { identififerValue } = req.params;
+    identifierService.deleteIdentifier(identififerValue)
+      .then((identifier) => {
+        res.status(200).send(identifier);
+      })
+      .catch(next);
+  },
 };
 
 module.exports = identifierController;

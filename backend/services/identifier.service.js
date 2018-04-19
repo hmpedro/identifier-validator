@@ -4,8 +4,28 @@ const cnpjValidator = require('node-cnpj');
 const Identifier = require('../models/identifier.model');
 const StatusService = require('./status.service');
 
+function validateIdentifier(identifier) {
+  if (!identifier) {
+    throw new Error('Empty Object');
+  }
+
+  if (identifier.type === 'CPF' && !cpfValidator.isValid(identifier.value)) {
+    const err = new Error('Invalid CPF');
+    err.status = 400;
+
+    throw err;
+  }
+
+  if (identifier.type === 'CNPJ' && !cnpjValidator.validate(identifier.value)) {
+    const err = new Error('Invalid CNPJ');
+    err.status = 400;
+
+    throw err;
+  }
+}
+
 const identifierService = {
-  list: async ({ filters }) => {
+  list: async ({filters}) => {
     StatusService.incrementQuery('list');
 
     try {
@@ -39,40 +59,40 @@ const identifierService = {
   },
 
   updateIdentifier: async (identififerValue, identifier) => {
-    StatusService.incrementQuery('createIdentifier');
+    StatusService.incrementQuery('updateIdentifier');
 
     validateIdentifier(identifier);
 
     try {
-      const savedObj = await Identifier.update({ value: identififerValue }, identifier);
+      const oldIdentifier = await Identifier.findOne({value: identififerValue}).exec();
+
+      oldIdentifier.value = identifier.value;
+      oldIdentifier.type = identifier.type;
+      oldIdentifier.blacklist = identifier.blacklist;
+
+      const savedObj = await oldIdentifier.save();
       return savedObj;
     } catch (error) {
       console.log(error);
 
       throw error;
     }
-  }
+  },
 
+  deleteIdentifier: async (identififerValue) => {
+    StatusService.incrementQuery('updateIdentifier');
+
+    try {
+      const deletedIdentifier = await Identifier.findOne({ value: identififerValue }).remove().exec();
+
+      return deletedIdentifier;
+    } catch (error) {
+      console.log(error);
+
+      throw error;
+    }
+  },
 };
 
-function validateIdentifier(identifier) {
-  if (!identifier) {
-    throw new Error('Empty Object');
-  }
-
-  if (identifier.type === 'CPF' && !cpfValidator.isValid(identifier.value)) {
-    const err = new Error('Invalid CPF');
-    err.status = 400;
-
-    throw err;
-  }
-
-  if (identifier.type === 'CNPJ' && !cnpjValidator.validate(identifier.value)) {
-    const err = new Error('Invalid CNPJ');
-    err.status = 400;
-
-    throw err;
-  }
-}
 
 module.exports = identifierService;
