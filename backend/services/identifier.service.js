@@ -24,7 +24,7 @@ const identifierService = {
     const identifierToSave = new Identifier({
       value: identifier.value,
       type: identifier.type,
-      blacklist: identifier.blacklist,
+      blacklist: identifier.blacklist || undefined,
     });
 
     try {
