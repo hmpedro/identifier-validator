@@ -10,11 +10,19 @@ const identifierController = {
   },
   createIdentifier: (req, res, next) => {
     identifierService.createIdentifier(req.body)
-      .then((cpf) => {
-        res.status(200).send(cpf);
+      .then((identifier) => {
+        res.status(200).send(identifier);
       })
       .catch(next);
   },
+  updateIdentifier: (req, res, next) => {
+    const { identififerValue } = req.params;
+    identifierService.updateIdentifier(identififerValue, req.body)
+      .then((identifier) => {
+        res.status(200).send(identifier);
+      })
+      .catch(next);
+  }
 };
 
 module.exports = identifierController;

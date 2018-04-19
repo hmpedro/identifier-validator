@@ -7,5 +7,7 @@ router.get('/', identifierController.list);
 
 router.post('/', identifierController.createIdentifier);
 
+router.put('/:identififerValue', identifierController.updateIdentifier);
+
 
 module.exports = router;

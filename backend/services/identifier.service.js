@@ -19,21 +19,7 @@ const identifierService = {
   createIdentifier: async (identifier) => {
     StatusService.incrementQuery('createIdentifier');
 
-    if (!identifier) {
-      throw new Error('Empty Object');
-    }
-
-    if (!identifier) {
-      throw new Error('Empty Object');
-    }
-
-    if (identifier.type === 'CPF' && !cpfValidator.isValid(identifier.value)) {
-      throw new Error('Invalid CPF');
-    }
-
-    if (identifier.type === 'CNPJ' && !cnpjValidator.validate(identifier.value)) {
-      throw new Error('Invalid CNPJ');
-    }
+    validateIdentifier(identifier);
 
     const identifierToSave = new Identifier({
       value: identifier.value,
@@ -52,6 +38,41 @@ const identifierService = {
     }
   },
 
+  updateIdentifier: async (identififerValue, identifier) => {
+    StatusService.incrementQuery('createIdentifier');
+
+    validateIdentifier(identifier);
+
+    try {
+      const savedObj = await Identifier.update({ value: identififerValue }, identifier);
+      return savedObj;
+    } catch (error) {
+      console.log(error);
+
+      throw error;
+    }
+  }
+
 };
+
+function validateIdentifier(identifier) {
+  if (!identifier) {
+    throw new Error('Empty Object');
+  }
+
+  if (identifier.type === 'CPF' && !cpfValidator.isValid(identifier.value)) {
+    const err = new Error('Invalid CPF');
+    err.status = 400;
+
+    throw err;
+  }
+
+  if (identifier.type === 'CNPJ' && !cnpjValidator.validate(identifier.value)) {
+    const err = new Error('Invalid CNPJ');
+    err.status = 400;
+
+    throw err;
+  }
+}
 
 module.exports = identifierService;
