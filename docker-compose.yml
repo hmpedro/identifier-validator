@@ -1,7 +1,12 @@
 version: '2'
 services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+
   backend:
-    build: .
+    build: backend/.
     ports:
       - 3000:3000
     depends_on:
@@ -10,7 +15,7 @@ services:
       MONGO_URL: 'mongodb://mongo:27017/identifier-project'
       NODE_ENV: 'production'
 
-  mongo:
-    image: mongo
+  frontend:
+    build: frontend/.
     ports:
-      - 27017:27017
+      - 8080:8080
