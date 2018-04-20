@@ -1761,6 +1761,10 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
 
+cpf@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/cpf/-/cpf-1.0.1.tgz#1a0a0bfd13d32c4ecac2056f2fdc45ce6fd1eebc"
+
 create-ecdh@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.1.tgz#44223dfed533193ba5ba54e0df5709b89acf1f82"
@@ -4215,6 +4219,10 @@ no-case@^2.2.0:
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
   dependencies:
     lower-case "^1.1.1"
+
+node-cnpj@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/node-cnpj/-/node-cnpj-1.0.8.tgz#0e679bb52a032525333473e70b0bfb9436c0db7a"
 
 node-forge@0.7.1:
   version "0.7.1"

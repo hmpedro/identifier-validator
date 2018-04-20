@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container grid-list-xl>
     <v-layout row wrap justify-center>
       <v-flex xs6>
         <v-form v-model="filterValid" ref="form" lazy-validation>
@@ -29,6 +29,10 @@
           </v-btn>
           <v-btn @click="clearFilter">Limpar</v-btn>
         </v-form>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap justify-center>
+      <v-flex xs6>
         <v-data-table
           :headers="headers"
           :items="itemsShown"
@@ -43,15 +47,21 @@
                   {{ props.item.blacklist ? 'thumb_down' : 'thumb_up' }}
                 </v-icon>
               </td>
-              <td>  {{ props.item.value }}</td>
+              <td> {{ props.item.value | maskIdentifier(props.item.type) }}</td>
               <td>{{ props.item.type }}</td>
               <td>
-                <v-btn icon class="mx-0" @click="flagBlacklist(props.item)">
-                  <v-icon color="black">block</v-icon>
-                </v-btn>
-                <v-btn icon class="mx-0" @click="deleteItem(props.item)">
-                  <v-icon color="red">delete</v-icon>
-                </v-btn>
+                <v-tooltip top>
+                  <v-btn icon class="mx-0" @click="flagBlacklist(props.item)" slot="activator">
+                    <v-icon color="black">block</v-icon>
+                  </v-btn>
+                  <span>Flag Blacklist</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <v-btn icon class="mx-0" @click="deleteItem(props.item)" slot="activator">
+                    <v-icon color="red">delete</v-icon>
+                  </v-btn>
+                  <span>Deletar</span>
+                </v-tooltip>
               </td>
             </tr>
           </template>
@@ -68,17 +78,25 @@
 
 <script>
 	import requestService from '../RequestService'
+	import cpfMask from 'cpf';
+	import cnpjMask from 'node-cnpj';
 
 	export default {
 		name: 'IdentifierList',
 		props: {
 			menuShowFn: Function
 		},
-    filters: {
-			maskIdentifier: (item) => {
+		filters: {
+			maskIdentifier: (txt, type) => {
+				if (type === 'CPF') {
+					return cpfMask.format(txt);
+				}
 
-      }
-    },
+				if (type === 'CNPJ') {
+					return cnpjMask.mask(txt);
+				}
+			}
+		},
 		data() {
 			return {
 				filterValid: false,
@@ -98,7 +116,7 @@
 					{text: 'Ações', value: 'name', sortable: false}
 				],
 				items: [],
-        itemsShown: [],
+				itemsShown: [],
 				typesOptions: [
 					'CPF',
 					'CNPJ',
@@ -113,7 +131,7 @@
 		methods: {
 			retriveList() {
 				this.loading = true;
-        this.items = [];
+				this.items = [];
 				requestService.retrieve('identifier')
 					.then(response => {
 						this.loading = false;
@@ -124,12 +142,12 @@
 						this.loading = false;
 						console.log(error);
 					});
-      },
+			},
 			flagBlacklist(itemShown) {
 
-        const item = this.items.find(obj => {
-        	return Object.is(obj, itemShown);
-        });
+				const item = this.items.find(obj => {
+					return Object.is(obj, itemShown);
+				});
 
 				let itemToSave = Object.assign({}, item);
 				itemToSave.blacklist = true;
@@ -163,23 +181,23 @@
 			},
 			filterItems() {
 				const itemsArray = this.items;
-        this.itemsShown = itemsArray.filter(item => {
-        	let shouldFilter = true;
+				this.itemsShown = itemsArray.filter(item => {
+					let shouldFilter = true;
 
 					if (this.filter.type && item.type !== this.item.type) {
 						shouldFilter = false
 					}
 
-        	if (this.filter.value && !item.value.includes(this.filter.value)) {
-            shouldFilter = false;
-          }
+					if (this.filter.value && !item.value.includes(this.filter.value)) {
+						shouldFilter = false;
+					}
 
 					if (this.filter.blacklist && item.blacklist !== this.filter.blacklist) {
 						shouldFilter = false;
 					}
 
-          return shouldFilter;
-        })
+					return shouldFilter;
+				})
 			},
 			clearFilter() {
 				this.$refs.form.reset();

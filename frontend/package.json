@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cpf": "^1.0.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
+    "node-cnpj": "^1.0.8",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.14"
