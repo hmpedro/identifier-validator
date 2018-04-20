@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar color="indigo" dark fixed app>
+    <v-toolbar color="orange" dark fixed app>
         <v-toolbar-side-icon @click.stop="menuShowFn()"></v-toolbar-side-icon>
         <v-toolbar-title>Application</v-toolbar-title>
     </v-toolbar>
