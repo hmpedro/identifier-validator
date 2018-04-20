@@ -2,18 +2,17 @@
   <v-container>
     <v-layout row wrap justify-center>
       <v-flex xs6>
-        <v-form v-model="valid" ref="form" lazy-validation>
+        <v-form v-model="filterValid" ref="form" lazy-validation>
           <v-select
             :items="typesOptions"
             v-model="filter.type"
-            label="CPF/CNPJ"
+            label="Selecione um tipo"
             single-line
             @change="typeChanged"
           ></v-select>
           <v-text-field
-            label="Identificador"
+            label="Número do identificador"
             v-model="filter.value"
-            :rules="valueRules"
             :disabled="!filter.type"
             :mask="mask"
           ></v-text-field>
@@ -23,12 +22,12 @@
           ></v-checkbox>
 
           <v-btn
-            @click="filter"
-            :disabled="!valid"
+            @click="filterItems"
+            :disabled="!filterValid"
           >
-            submit
+            Filtrar
           </v-btn>
-          <v-btn @click="clearFilter">clear</v-btn>
+          <v-btn @click="clearFilter">Limpar</v-btn>
         </v-form>
         <v-data-table
           :headers="headers"
@@ -44,7 +43,7 @@
                   {{ props.item.blacklist ? 'thumb_down' : 'thumb_up' }}
                 </v-icon>
               </td>
-              <td>{{ props.item.value }}</td>
+              <td>  {{ props.item.value }}</td>
               <td>{{ props.item.type }}</td>
               <td>
                 <v-btn icon class="mx-0" @click="flagBlacklist(props.item)">
@@ -57,8 +56,8 @@
             </tr>
           </template>
           <template slot="no-data">
-            <v-alert :value="true" color="error" icon="warning">
-              Sorry, nothing to display here :(
+            <v-alert :value="items.length === 0 && loading === false" color="error" icon="warning">
+              Desculpe, nenhum identificador encontrado.
             </v-alert>
           </template>
         </v-data-table>
@@ -77,20 +76,21 @@
 		},
 		data() {
 			return {
+				filterValid: false,
 				filter: {
-					value: '',
-          type: '',
-          blacklist: null
-        },
+					value: null,
+					type: null,
+					blacklist: null
+				},
 				loading: false,
 				headers: [
 					{text: 'Status', value: 'blacklist', sortable: false},
 					{
-						text: 'Identifier',
+						text: 'Identificador',
 						value: 'identifier'
 					},
-					{text: 'Type', value: 'type'},
-					{text: 'Actions', value: 'name', sortable: false}
+					{text: 'Tipo', value: 'type'},
+					{text: 'Ações', value: 'name', sortable: false}
 				],
 				items: [],
 				typesOptions: [
@@ -131,14 +131,30 @@
 						console.log(error);
 					});
 			},
-			filter() {
+			filterItems() {
+        return this.items.filter((item) => {
+        	let shouldFilter = true;
 
+        	if (this.filter.value && !item.value.includes(this.filter.value)) {
+            shouldFilter = false;
+          }
+
+					if (this.filter.blacklist && item.blacklist !== this.filter.blacklist) {
+						shouldFilter = false;
+					}
+
+					if (this.filter.type && item.type !== this.item.type) {
+        		shouldFilter = false
+          }
+
+          return shouldFilter;
+        })
 			},
 			clearFilter() {
-
+				this.$refs.form.reset()
 			},
 			typeChanged(newVal) {
-				this.identifier.value = null;
+				this.filter.value = null;
 				this.mask = this.masksType[newVal];
 			}
 		},
