@@ -45,7 +45,7 @@
               Seu {{identifier.type}} foi adicionado com sucesso
             </v-card-text>
             <v-card-actions>
-              <v-btn color="primary" flat @click.stop="closeSuccessDialog">Close</v-btn>
+              <v-btn color="primary" flat @click.stop="closeSuccessDialog">Fechar</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -127,7 +127,8 @@
 			},
 			closeSuccessDialog() {
 				this.successDialog = false;
-				this.$router.push({name: 'identifierList'});
+				this.clear();
+//				this.$router.push({name: 'identifierList'});
 			}
 		},
 		created() {

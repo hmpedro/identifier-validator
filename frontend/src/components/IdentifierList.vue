@@ -31,7 +31,7 @@
         </v-form>
         <v-data-table
           :headers="headers"
-          :items="items"
+          :items="itemsShown"
           class="elevation-1"
           :loading="loading"
         >
@@ -74,6 +74,11 @@
 		props: {
 			menuShowFn: Function
 		},
+    filters: {
+			maskIdentifier: (item) => {
+
+      }
+    },
 		data() {
 			return {
 				filterValid: false,
@@ -93,6 +98,7 @@
 					{text: 'Ações', value: 'name', sortable: false}
 				],
 				items: [],
+        itemsShown: [],
 				typesOptions: [
 					'CPF',
 					'CNPJ',
@@ -105,7 +111,26 @@
 			}
 		},
 		methods: {
-			flagBlacklist(item) {
+			retriveList() {
+				this.loading = true;
+        this.items = [];
+				requestService.retrieve('identifier')
+					.then(response => {
+						this.loading = false;
+						this.items = response.data;
+						this.itemsShown = this.items;
+					})
+					.catch(error => {
+						this.loading = false;
+						console.log(error);
+					});
+      },
+			flagBlacklist(itemShown) {
+
+        const item = this.items.find(obj => {
+        	return Object.is(obj, itemShown);
+        });
+
 				let itemToSave = Object.assign({}, item);
 				itemToSave.blacklist = true;
 				this.loading = true;
@@ -114,6 +139,7 @@
 					.then(response => {
 						console.log(response);
 						item.blacklist = true;
+						itemShown.blacklist = true;
 						this.loading = false;
 					})
 					.catch(error => {
@@ -122,18 +148,27 @@
 					});
 			},
 			deleteItem(item) {
+				this.loading = true;
+
 				requestService.delete('identifier', item.value)
 					.then(response => {
 						console.log(response);
-						this.$router.go()
+						this.loading = false;
+						this.retriveList();
 					})
 					.catch(error => {
 						console.log(error);
+						this.loading = false;
 					});
 			},
 			filterItems() {
-        return this.items.filter((item) => {
+				const itemsArray = this.items;
+        this.itemsShown = itemsArray.filter(item => {
         	let shouldFilter = true;
+
+					if (this.filter.type && item.type !== this.item.type) {
+						shouldFilter = false
+					}
 
         	if (this.filter.value && !item.value.includes(this.filter.value)) {
             shouldFilter = false;
@@ -143,15 +178,12 @@
 						shouldFilter = false;
 					}
 
-					if (this.filter.type && item.type !== this.item.type) {
-        		shouldFilter = false
-          }
-
           return shouldFilter;
         })
 			},
 			clearFilter() {
-				this.$refs.form.reset()
+				this.$refs.form.reset();
+				this.filterItems();
 			},
 			typeChanged(newVal) {
 				this.filter.value = null;
@@ -159,16 +191,7 @@
 			}
 		},
 		created() {
-			this.loading = true;
-			requestService.retrieve('identifier')
-				.then(response => {
-					this.loading = false;
-					this.items = response.data;
-				})
-				.catch(error => {
-					this.loading = false;
-					console.log(error);
-				});
+			this.retriveList();
 		}
 	}
 </script>
