@@ -110,7 +110,7 @@
 					{text: 'Status', value: 'blacklist', sortable: false},
 					{
 						text: 'Identificador',
-						value: 'identifier'
+						value: 'value'
 					},
 					{text: 'Tipo', value: 'type'},
 					{text: 'Ações', value: 'name', sortable: false}
@@ -184,7 +184,7 @@
 				this.itemsShown = itemsArray.filter(item => {
 					let shouldFilter = true;
 
-					if (this.filter.type && item.type !== this.item.type) {
+					if (this.filter.type && item.type !== this.filter.type) {
 						shouldFilter = false
 					}
 
