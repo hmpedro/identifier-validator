@@ -10,7 +10,7 @@ class Env {
   }
 
   static get MONGO_URL() {
-    return process.env.MONGO_URL || 'mongodb://localhost:27017/identifier-project';
+    return process.env.MONGO_URL || 'mongodb://teste:1234567@localhost:27017/identifier-project';
   }
 
   static get PORT() {
