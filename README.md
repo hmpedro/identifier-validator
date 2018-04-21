@@ -13,10 +13,10 @@
 
 - Download or clone github-metrics latest release
 - Both frontend and backend are part of the same repository, so you need to enter in each folder to install the dependencies
-- Install `$ npm install`
-- Set the Mongo URL that you want to use in .env file based on .env.sample
+- Run `$ npm install` in each folder
+- Go to backend folder and set the Mongo URL that you want to use in .env file based on .env.sample
 - Run `$ npm start` in backend folder
-- Run `$ npm start` in frontend folder
+- Run `$ npm run serve` in frontend folder
 - Open the browser at localhost:8080
 
 #### Production

@@ -3,7 +3,8 @@ const StatusService = {
   queries: {
     createIdentifier: 0,
     updateIdentifier: 0,
-    list: 0,
+    deleteIdentifier: 0,
+    retrieveIdentifier: 0,
   },
 
   getUptime: () => {

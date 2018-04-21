@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const cpfValidator = require('cpf');
 const cnpjValidator = require('node-cnpj');
 
@@ -26,7 +27,7 @@ function validateIdentifier(identifier) {
 
 const identifierService = {
   list: async ({filters}) => {
-    StatusService.incrementQuery('list');
+    StatusService.incrementQuery('retrieveIdentifier');
 
     try {
       return await Identifier.find();
@@ -64,7 +65,7 @@ const identifierService = {
     validateIdentifier(identifier);
 
     try {
-      const oldIdentifier = await Identifier.findOne({value: identififerValue}).exec();
+      const oldIdentifier = await Identifier.findOne({ value: identififerValue }).exec();
 
       oldIdentifier.value = identifier.value;
       oldIdentifier.type = identifier.type;
@@ -80,7 +81,7 @@ const identifierService = {
   },
 
   deleteIdentifier: async (identififerValue) => {
-    StatusService.incrementQuery('updateIdentifier');
+    StatusService.incrementQuery('deleteIdentifier');
 
     try {
       const deletedIdentifier = await Identifier.findOne({ value: identififerValue }).remove().exec();
