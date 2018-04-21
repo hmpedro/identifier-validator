@@ -4,7 +4,7 @@
 
 #### Requirements
 
-- Node.js **7.6.0 >** 
+- Node.js 
 - Mongodb
 - Docker(For production mode)
 - docker-compose(For production mode)
