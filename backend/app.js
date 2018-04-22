@@ -31,10 +31,9 @@ const bootstrap = async () => {
   });
 
   app.use((err, req, res, next) => {
-    const { message, status } = err;
-    err = req.app.get('env') === 'development' ? err : null;
+    const { message, status, stack } = err;
 
-    res.status(status || 500).send(err || { message });
+    res.status(status || 500).send({ message, stack });
   });
 
   await mongoose();

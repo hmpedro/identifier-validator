@@ -62,7 +62,7 @@
               <td>{{ props.item.type }}</td>
               <td>
                 <v-tooltip top>
-                  <v-btn icon class="mx-0" @click="flagBlacklist(props.item)" slot="activator">
+                  <v-btn icon class="mx-0" @click="flagBlacklist(props.item)" slot="activator" :disabled="props.item.blacklist">
                     <v-icon color="black">block</v-icon>
                   </v-btn>
                   <span>Flag Blacklist</span>
