@@ -11,7 +11,7 @@
 
 #### Development setup
 
-- Download or clone github-metrics latest release
+- Download or clone identifier-validator latest release
 - Both frontend and backend are part of the same repository, so you need to enter in each folder to install the dependencies
 - Run `$ npm install` in each folder
 - Go to backend folder and set the Mongo URL that you want to use in .env file based on .env.sample
