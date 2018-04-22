@@ -35,9 +35,9 @@
                                 @click="submit"
                                 :disabled="!valid"
                         >
-                            submit
+                            Enviar
                         </v-btn>
-                        <v-btn @click="clear">clear</v-btn>
+                        <v-btn @click="clear">Limpar</v-btn>
                     </v-form>
                     </div>
                 </v-card>
