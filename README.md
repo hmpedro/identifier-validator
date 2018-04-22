@@ -28,5 +28,7 @@
 - Run `$ docker-compose up `
 - Open the browser at localhost:8080
 
+Ps: If you're using docker-tools that use a VM be careful with the ports.
+
 ### License
 [Licence](https://github.com/rodrigogs/debuggler/blob/master/LICENSE) © Pedro Henrique Mognon
