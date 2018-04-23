@@ -12,12 +12,12 @@
 #### Development setup
 
 - Download or clone identifier-validator latest release
-- Both frontend and backend are part of the same repository, so you need to enter in each folder to install the dependencies
+- Both frontend and backend are in the same repository, so you need to enter each folder to install the dependencies
 - Run `$ npm install` in each folder
-- Go to backend folder and set the Mongo URL that you want to use in .env file based on .env.sample
+- Go to the backend folder and set the Mongo URL that you want to use in the .env file based on .env.sample
   - Ps: I suggest to use Mongo Lab
-- Run `$ npm start` in backend folder
-- Run `$ npm run serve` in frontend folder
+- Run `$ npm start` in the backend folder
+- Run `$ npm run serve` in the frontend folder
 - Open the browser at localhost:8080
 
 #### Production
